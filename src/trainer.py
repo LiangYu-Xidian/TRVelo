@@ -208,3 +208,42 @@ class Trainer:
                 optimizer.step()
 
         return v0, v1, v2, v3, latent_time, sine_target
+
+    def inference(self, latent_time_loader):
+        """Single forward pass — no training, no gradients."""
+        self.velocity_model.eval()
+        self.latent_time_model.eval()
+
+        with torch.no_grad():
+            velocity_weight = self.velocity_model(self.graph)
+            scale_factor = velocity_weight[:, 0:1].squeeze(dim=1)
+            velocity_weight_TFs = velocity_weight[:, 1:-5]
+            velocity_weight_self = velocity_weight[:, -5:-4].squeeze(dim=1)
+            a = velocity_weight[:, -4:-3].squeeze(dim=1)
+            b = velocity_weight[:, -3:-2].squeeze(dim=1)
+            c = velocity_weight[:, -2:-1].squeeze(dim=1)
+            d = velocity_weight[:, -1]
+
+            latent_time_list = []
+            for batch_cell in latent_time_loader:
+                batch_latent_time = self.latent_time_model(batch_cell)
+                latent_time_list.append(batch_latent_time)
+            latent_time = torch.cat(latent_time_list, dim=0)[:, -1]
+
+        # Enable grad for autograd derivative computation
+        latent_time_expanded = latent_time.unsqueeze(1).expand(-1, self.num_genes).requires_grad_(True)
+
+        with torch.enable_grad():
+            sine_target = (a * torch.sin(torch.pi*b*(latent_time_expanded+c)) + d)
+            v1 = torch.autograd.grad(sine_target.sum(), latent_time_expanded, retain_graph=True)[0]
+
+        with torch.no_grad():
+            # Scale active (as in train phases)
+            velocity_weight_TFs = velocity_weight_TFs * scale_factor.unsqueeze(1)
+            velocity_weight_TFs = velocity_weight_TFs * self.init_weight_TFs_mask
+
+            v0 = F.relu(sine_target[:, self.TFs_index_list] @ velocity_weight_TFs.t()) + sine_target * velocity_weight_self
+            v2 = F.relu(self.x_high[:, self.TFs_index_list] @ velocity_weight_TFs.t()) + self.x_high * velocity_weight_self
+            v3 = F.relu(self.x_high[:, self.TFs_index_list] @ velocity_weight_TFs.t()) + sine_target * velocity_weight_self
+
+        return v0, v1, v2, v3, latent_time, sine_target
