@@ -135,10 +135,21 @@ lambda_smooth:      # Weight for neighborhood smoothness
 
 
 ### Quick Start
-To train the model on a specific dataset located in `data/`, run:
+
+**General usage:**
 
 ```bash
 python main.py --dataset [DATASET_NAME]
+```
+
+**Example: train on human CD34+ bone marrow data (included):**
+
+```bash
+# Train from scratch (~30 min on GPU)
+python main.py --dataset human_cd34_bone_marrow
+
+# Or run inference directly with pre-trained weights
+python main.py --dataset human_cd34_bone_marrow --load-model ./model
 ```
 
 ## ✉️ Contact
