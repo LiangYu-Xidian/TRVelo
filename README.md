@@ -53,6 +53,8 @@ This formulation allows TRVelo to recover complex trajectories, including cyclic
 
 ## 🛠️ Installation
 
+**System Requirements:** Ubuntu 22.04, CUDA 11.3
+
 TRVelo is built on **PyTorch 1.11** and **PyTorch Geometric 1.7**.
 
 ### Step 1: Create Environment
