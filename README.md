@@ -2,8 +2,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python](https://img.shields.io/badge/python-3.8%20%7C%203.9-blue.svg)](https://www.python.org/downloads/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-1.12%2B-ee4c2c.svg)](https://pytorch.org/)
-[![PyG](https://img.shields.io/badge/PyG-2.0%2B-3C2179.svg)](https://www.pyg.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-1.11-ee4c2c.svg)](https://pytorch.org/)
+[![PyG](https://img.shields.io/badge/PyG-1.7-3C2179.svg)](https://www.pyg.org/)
 [![Code Style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 > **TRVelo** is a deep learning-based framework for RNA velocity inference that shifts the paradigm from splicing kinetics to **transcriptional regulation**. By integrating Gene Regulatory Networks (GRNs) with total mRNA expression, TRVelo robustly reconstructs cellular dynamics and latent time, overcoming the sparsity limitations of traditional splicing-based methods.
@@ -53,33 +53,27 @@ This formulation allows TRVelo to recover complex trajectories, including cyclic
 
 ## 🛠️ Installation
 
-TRVelo is built on **PyTorch** and **PyTorch Geometric**.
+TRVelo is built on **PyTorch 1.11** and **PyTorch Geometric 1.7**.
 
 ### Step 1: Create Environment
 ```bash
-conda create -n trvelo_env python=3.10
+conda create -n trvelo_env python=3.8
 conda activate trvelo_env
 ```
-### Step 2: Install Core Dependencies
-Install PyTorch and PyG compatible with your CUDA version:
+### Step 2: Install PyTorch
 ```bash
-# Install PyTorch (CUDA 12.1 example)
-pip install torch torchvision torchaudio
-
-# Install PyTorch Geometric
-pip install torch-geometric
+# PyTorch 1.11 with CUDA 11.3
+conda install pytorch==1.11.0 torchvision==0.12.0 cudatoolkit=11.3 -c pytorch
 ```
-### Step 3: Install TRVelo
-Clone this repository and install with dependencies:
+### Step 3: Install PyTorch Geometric
+```bash
+pip install torch-geometric==1.7.2 torch-scatter==2.0.9 torch-sparse==0.6.13 torch-cluster==1.6.0 torch-spline-conv==1.2.1
+```
+### Step 4: Install TRVelo
 ```bash
 git clone https://github.com/LiangYu-Xidian/TRVelo.git
 cd TRVelo
 pip install -e .
-```
-
-Or install dependencies manually:
-```bash
-pip install -r requirements.txt
 ```
 
 ---
