@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "trvelo"
+version = "1.0"
+description = "TRVelo: Decoupling RNA Velocity from Splicing Kinetics"
+requires-python = ">=3.8"
+dependencies = [
+    "torch>=2.0",
+    "torch-geometric>=2.0",
+    "scanpy>=1.9",
+    "scvelo>=0.3",
+    "numpy",
+    "scipy",
+    "scikit-learn",
+    "pandas",
+    "pyyaml",
+    "tqdm",
+    "magic-impute",
+]

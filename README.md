@@ -53,28 +53,33 @@ This formulation allows TRVelo to recover complex trajectories, including cyclic
 
 ## 🛠️ Installation
 
-TRVelo is built on **PyTorch** and **PyTorch Geometric**. We strongly recommend using a fresh Conda environment to avoid dependency conflicts.
+TRVelo is built on **PyTorch** and **PyTorch Geometric**.
 
 ### Step 1: Create Environment
 ```bash
-conda create -n trvelo_env python=3.8
+conda create -n trvelo_env python=3.10
 conda activate trvelo_env
 ```
 ### Step 2: Install Core Dependencies
-Install PyTorch and PyG compatible with your CUDA version (example below for CUDA 11.3):
+Install PyTorch and PyG compatible with your CUDA version:
 ```bash
-# Install PyTorch
-conda install pytorch==1.11.0 torchvision==0.12.0 cudatoolkit=11.3.1 -c pytorch
+# Install PyTorch (CUDA 12.1 example)
+pip install torch torchvision torchaudio
 
 # Install PyTorch Geometric
-conda install pyg -c pyg
+pip install torch-geometric
 ```
 ### Step 3: Install TRVelo
-Clone this repository and install the package in editable mode:
+Clone this repository and install with dependencies:
 ```bash
-git clone [https://github.com/LiangYu-Xidian/TRVelo.git](https://github.com/LiangYu-Xidian/TRVelo.git)
+git clone https://github.com/LiangYu-Xidian/TRVelo.git
 cd TRVelo
 pip install -e .
+```
+
+Or install dependencies manually:
+```bash
+pip install -r requirements.txt
 ```
 
 ---
@@ -128,11 +133,10 @@ learning_rate_train:    # Learning rate for fine-tuning phases
 # --------------------------
 # Physics & Loss Weights
 # --------------------------
-lambda_velocity:    # (α1) Weight for velocity consistency loss
-lambda_steady:      # (α2) Weight for steady-state constraints
-lambda_prior:       # (α3) Weight for GRN prior constraints
-lambda_smooth:      # Weight for neighborhood smoothness
+lambda_velocity:    # Weight for velocity consistency loss
+lambda_steady:      # Weight for steady-state constraints
 lambda_scale:       # Weight for scale factor regularization
+lambda_smooth:      # Weight for neighborhood smoothness
 ```
 
 
@@ -140,7 +144,7 @@ lambda_scale:       # Weight for scale factor regularization
 To train the model on a specific dataset located in `data/`, run:
 
 ```bash
-python main.py --dataset [DATASET_NAME] --config configs/default.yaml
+python main.py --dataset [DATASET_NAME]
 ```
 
 ## ✉️ Contact
