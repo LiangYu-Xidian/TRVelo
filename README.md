@@ -69,13 +69,13 @@ conda install pytorch==1.11.0 torchvision==0.12.0 cudatoolkit=11.3 -c pytorch
 ```
 ### Step 3: Install PyTorch Geometric
 ```bash
-pip install torch-geometric==1.7.2 torch-scatter==2.0.9 torch-sparse==0.6.13 torch-cluster==1.6.0 torch-spline-conv==1.2.1
+conda install pyg -c pyg
 ```
 ### Step 4: Install TRVelo
 ```bash
 git clone https://github.com/LiangYu-Xidian/TRVelo.git
 cd TRVelo
-pip install -e .
+pip install -e . -f https://data.pyg.org/whl/torch-1.11.0+cu113.html
 ```
 
 ---
