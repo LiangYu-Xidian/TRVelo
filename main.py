@@ -14,6 +14,7 @@ def main(args):
     # 1. Config & Setup
     config = load_config()
     if args.dataset: config['dataset_name'] = args.dataset
+    if args.seed: config['seed'] = int(args.seed)
 
     seed_everything(config['seed'])
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -110,7 +111,7 @@ def main(args):
 
     lt_np = latent_time.detach().cpu().numpy()
     adata.obs['latent_time'] = (lt_np - lt_np.min()) / (lt_np.max() - lt_np.min())
-    adata.layers['velocity'] = v0.detach().cpu().numpy()
+    adata.layers['velocity'] = v1.detach().cpu().numpy()
     scv.tl.velocity_graph(adata)
 
     # Save
@@ -119,9 +120,6 @@ def main(args):
     if not args.load_model:
         torch.save(vel_model.state_dict(), f"{config['model_dir']}/{config['dataset_name']}_vel.pth")
     scv.pl.velocity_embedding_stream(adata, color='clusters', save=f"./output/{config['dataset_name']}_velocity.png")
-    adata.layers["velocity"] = v1.detach().cpu().numpy()
-    scv.tl.velocity_graph(adata)
-    scv.pl.velocity_embedding_stream(adata)
 
     return v0
 

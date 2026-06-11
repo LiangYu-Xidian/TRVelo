@@ -102,37 +102,37 @@ The core training pipeline is encapsulated in `main.py`. The process involves **
 
 ### Configuration
 
-TRVelo exposes key hyperparameters in `configs/default.yaml`, allowing users to control the balance between data fidelity, biological priors, and trajectory smoothness.
-
-The configuration file is structured as follows:
+TRVelo exposes key hyperparameters in `configs/default.yaml`.
 
 ```yaml
-# configs/default.yaml
-
-# --------------------------
 # Model Architecture
-# --------------------------
-embedding_dim:          # Dimension of gene/cell embeddings
-hidden_dim:             # Hidden dimension for GAT and Residual MLPs
-heads:                  # Number of attention heads in GAT
-dropout:                # Dropout rate for regularization
+embedding_dim: 128        # Dimension of gene/cell embeddings
+hidden_dim: 256            # Hidden dimension for GAT and Residual MLPs
+heads: 1                   # Number of attention heads in GAT
+vel_num_layers: 1          # VelocityGAT layers
+time_num_layers: 8         # LatentTime layers
+dropout: 0.1               # Dropout rate
 
-# --------------------------
-# Training Hyperparameters
-# --------------------------
-seed:                   # Random seed for reproducibility
-epochs:                 # Training epochs per phase
-batch_size:             # Batch size for cell sampling
-learning_rate:          # Initial learning rate (Pre-training)
-learning_rate_train:    # Learning rate for fine-tuning phases
+# Training
+epochs: 300                # Epochs per phase
+batch_size: 512            # Batch size
+learning_rate: 1e-5        # LR (Pre-training)
+learning_rate_train: 1e-5  # LR (fine-tuning phases)
 
-# --------------------------
-# Physics & Loss Weights
-# --------------------------
-lambda_velocity:    # Weight for velocity consistency loss
-lambda_steady:      # Weight for steady-state constraints
-lambda_scale:       # Weight for scale factor regularization
-lambda_smooth:      # Weight for neighborhood smoothness
+# Loss Weights
+lambda_velocity: 1e-9      # Velocity consistency loss
+lambda_steady: 1e-9        # Steady-state constraints
+lambda_scale: 0.1          # Scale factor regularization
+lambda_smooth: 0.1         # Neighborhood smoothness
+
+# Strategy Gates
+velocity_start: 100        # Epoch velocity/steady loss starts (pretrain)
+init_tf_end: 100           # Epoch TF init loss ends
+init_self_end: 100         # Epoch self init loss ends
+init_param_end: 300        # Epoch param init loss ends
+scale_freeze_end: 500      # Epoch scale unfreezes
+steady_in_phase3: false    # Keep steady loss in Train_III
+smooth_in_phase1: false    # Enable smoothness in Train_I
 ```
 
 
@@ -147,7 +147,7 @@ python main.py --dataset [DATASET_NAME]
 **Example: train on human CD34+ bone marrow data (included):**
 
 ```bash
-# Train from scratch (~30 min on GPU)
+# Train from scratch (~3 min on GPU)
 python main.py --dataset human_cd34_bone_marrow
 
 # Or run inference directly with pre-trained weights

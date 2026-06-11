@@ -13,7 +13,7 @@ def seed_everything(seed):
     torch.cuda.manual_seed_all(seed)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
-    os.environ['CUBLAS_WORKSPACE_CONFIG']=':16:8'    
+    os.environ['CUBLAS_WORKSPACE_CONFIG']=':16:8'
     torch.use_deterministic_algorithms(True, warn_only=True)
     print(f"Seed set to: {seed}")
 
