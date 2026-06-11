@@ -4,7 +4,7 @@ import numpy as np
 import torch
 import yaml
 
-def seed_everything(seed):
+def seed_everything(seed=59510):
     random.seed(seed)
     os.environ['PYTHONHASHSEED'] = str(seed)
     np.random.seed(seed)
@@ -15,7 +15,6 @@ def seed_everything(seed):
     torch.backends.cudnn.benchmark = False
     os.environ['CUBLAS_WORKSPACE_CONFIG']=':16:8'
     torch.use_deterministic_algorithms(True, warn_only=True)
-    print(f"Seed set to: {seed}")
 
 def load_config(path='configs/default.yaml'):
     with open(path, 'r') as f:

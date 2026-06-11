@@ -14,9 +14,8 @@ def main(args):
     # 1. Config & Setup
     config = load_config()
     if args.dataset: config['dataset_name'] = args.dataset
-    if args.seed: config['seed'] = int(args.seed)
 
-    seed_everything(config['seed'])
+    seed_everything()
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"Running on {device}")
 
@@ -126,7 +125,6 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, default='human_cd34_bone_marrow')
-    parser.add_argument('--seed', type=str, default='59510')
     parser.add_argument('--load-model', type=str, default=None,
                         help='Path to checkpoint .pth for inference-only mode')
     args = parser.parse_args()

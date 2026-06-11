@@ -14,7 +14,6 @@ num_layers: 1
 vel_num_layers: 1
 time_num_layers: 8
 dropout: 0.1
-seed: 59510
 epochs: 300
 batch_size: 512
 learning_rate: 0.00001
