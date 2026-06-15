@@ -136,40 +136,14 @@ smooth_in_phase1: false    # Enable smoothness in Train_I
 ```
 
 
-### Quick Start — Load Pre-trained Weights
+### Quick Start
 
-```python
-import torch, scanpy as sc
-from src.model import VelocityGAT, LatentTime
-
-# 1. Load data
-adata = sc.read('data/DentateGyrus_processed.h5ad')
-n_genes, n_cells = adata.n_vars, adata.n_obs
-
-# 2. Build model (fixed architecture)
-in_channels = n_genes + 128        # genes + Node2Vec embedding
-vel_model   = VelocityGAT(in_channels, num_TFs=37)    # 37 TFs for DentateGyrus
-time_model  = LatentTime(n_cells, n_genes)
-
-# 3. Load weights
-vel_model.load_state_dict(torch.load('model/DentateGyrus_velocity_model_weights.pth'))
-time_model.load_state_dict(torch.load('model/DentateGyrus_latent_time_model_weights.pth'))
-vel_model.eval(); time_model.eval()
-```
-
-<<<<<<< HEAD
 **Example: Human CD34+ bone marrow data (included):**
 
 ```bash
 # run inference directly with pre-trained weights
 python main.py --dataset human_cd34_bone_marrow --load-model ./model
 ```
-=======
-| Dataset | `num_TFs` | Weights |
-|---------|-----------|---------|
-| DentateGyrus | 37 | `DentateGyrus_velocity_model_weights.pth` / `..._latent_time_...` |
-| endocrinogenesis_day15 | 29 | `endocrinogenesis_day15_velocity_model_weights.pth` / `..._latent_time_...` |
->>>>>>> 850b3de (Update Quick Start with load-model example)
 
 ## ✉️ Contact
 
