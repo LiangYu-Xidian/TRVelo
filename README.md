@@ -144,13 +144,10 @@ smooth_in_phase1: false    # Enable smoothness in Train_I
 python main.py --dataset [DATASET_NAME]
 ```
 
-**Example: train on human CD34+ bone marrow data (included):**
+**Example: Human CD34+ bone marrow data (included):**
 
 ```bash
-# Train from scratch (~3 min on GPU)
-python main.py --dataset human_cd34_bone_marrow
-
-# Or run inference directly with pre-trained weights
+# run inference directly with pre-trained weights
 python main.py --dataset human_cd34_bone_marrow --load-model ./model
 ```
 
